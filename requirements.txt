@@ -1,0 +1,7 @@
+pybullet==3.2.5
+scipy==1.10.0
+jsonpickle==3.0.1
+drake==1.26.0
+seaborn==0.13.2
+ipython==8.12.3
+manipulation==2023.11.8

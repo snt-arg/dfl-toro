@@ -1,0 +1,13 @@
+repositories:
+  lfd/lfd_interface:
+   type: git
+   url: https://github.com/snt-arg/lfd_interface.git
+   version: main
+  lfd/lfd_dmp:
+   type: git
+   url: https://github.com/snt-arg/lfd_dmp.git
+   version: main
+  lfd/lfd_smoothing:
+   type: git
+   url: https://github.com/snt-arg/lfd_smoothing.git
+   version: main

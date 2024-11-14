@@ -1,0 +1,13 @@
+repositories:
+  franka/fr3_moveit_config:
+   type: git
+   url: https://github.com/snt-arg/fr3_moveit_config.git
+   version: main
+  franka/franka_ros:
+   type: git
+   url: https://github.com/frankaemika/franka_ros.git
+   version: develop
+  franka/franka_ws:
+   type: git
+   url: https://github.com/snt-arg/franka_ws.git
+   version: main

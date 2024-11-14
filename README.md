@@ -7,7 +7,7 @@
 
 <p align="center">
   <a href="">
-    <img src="./docs/images/main.jpg" alt="Logo" width="60%">
+    <img src="./docs/images/main.jpg" alt="Logo" width="80%">
   </a>
 </p>
 
@@ -41,9 +41,9 @@ The principal modules comprising DFL-TORO are briefly described in the following
 | --- | --- |
 | [lfd_interface](https://github.com/snt-arg/lfd_interface) | The LFD Interface module is the core element of DFL-TORO. This module is responsible for providing an interface to various modules of the software and allowing interaction of the user with different functionalities of the software. The main design objective in developing this module was to provide a standard interface to enhance the extensibility and modularity of the framework.  |
 | [lfd_smoothing](https://github.com/snt-arg/lfd_smoothing) | The main role of the this module is to take raw recorded demonstrations and convert them into optimal demonstration trajectories. |
-| [lfd_dmp](https://github.com/snt-arg/lfd_dmp) | This module is the implementation of DMPs, which is responsible for training demonstrations and planning trajectories based on the required start and goal configuration. |
+| [lfd_dmp](https://github.com/snt-arg/lfd_dmp) | This module is the implementation of Dynamic Movement Primitives (DMPs), which is responsible for training demonstrations and planning trajectories based on the required start and goal configuration. |
 
-Besides the principal packages, several other packages are included to enable implementation on Franka Research 3 (FR3) and ABB Dual-Arm YuMi.
+Besides the principal packages, several other packages are included to enable implementation on FR3 and ABB Dual-Arm YuMi.
 
 ### FR3 Modules <a id="fr3-modules"></a>
 
@@ -70,7 +70,7 @@ Besides the principal packages, several other packages are included to enable im
 
 #### Prerequisites
 
-- Linux distribution
+- Linux distribution (Tested with Ubuntu 20.04)
 - Docker and Docker Compose installed
 - vcs tools
 
@@ -190,7 +190,7 @@ Besides the principal packages, several other packages are included to enable im
 
 ## Usage Guide <a id="usage"></a>
 
-This tutorial is designed for the Franka Research 3 (FR3) robotic arm, utilizing a learning approach based on Dynamic Movement Primitives (DMP). Before proceeding, please create the following folder structure within the `lfd_interface` package to organize the necessary data:
+This tutorial is designed for the FR3 robotic arm, utilizing a learning approach based on DMP. Before proceeding, please create the following folder structure within the `lfd_interface` package to organize the necessary data:
 
 ```plaintext
 <lfd_interface>/
@@ -269,19 +269,11 @@ smoother_config: {
   config_hierarchy: ["$(find lfd_smoothing)/config/opt/initial.yaml", "$(find lfd_smoothing)/config/opt/main.yaml"],
   robot_type: "fr3"
 }
-
-ik_solver_config: {
-  pkg_xml: $(find lfd_smoothing)/drake/franka_drake/package.xml,
-  urdf_path: package://franka_drake/urdf/fr3_full.urdf,
-  ee_frame: fr3_hand_tcp,
-  robot_type: "fr3"
-}
 ```
 
 - **demo_filter_threshold**: Determines the minimum distance between waypoints extracted from the original path. A higher value reduces the number of waypoints, leading to faster optimization.
 - **pkg_xml** and **urdf_path**: Paths for the robot's URDF packages, used by Drake to model and visualize the robot.
 - **config_hierarchy**: Paths to configuration files for the two stages of optimization.
-- **ee_frame**: End-effector frame used for the IK solver.
 
 #### Optimization Stages
 
@@ -292,26 +284,18 @@ The configuration files for each stage of the optimization are in `lfd_smoothing
 ```yaml
 num_cps: 4
 bspline_order: 4
-wp_per_segment: 2
-overlap: 1
 velocity_scaling: 1
 duration_bound: [0.01, 5]
 coeff_duration: 1
 tol_joint: 0
-solver_log: "/tmp/trajopt1.txt"
-plot: true
 ```
 
 - **num_cps**: Number of control points per path segment.
 - **bspline_order**: Order of the B-spline used for trajectory modeling.
-- **wp_per_segment**: Number of waypoints per trajectory segment.
-- **overlap**: Number of waypoints overlapping between adjacent segments.
 - **velocity_scaling**: Scaling factor for velocity limits (default is 1).
 - **duration_bound**: Minimum and maximum duration bounds for the trajectory.
 - **coeff_duration**: Coefficient for the duration term in the cost function.
 - **tol_joint**: Tolerance for deviation from the original joint configuration.
-- **solver_log**: Path for solver logs.
-- **plot**: Whether to display the optimization result.
 
 ##### Second Optimization Stage Configuration (FR3)
 
@@ -326,8 +310,6 @@ coeff_jerk: 0.04
 coeff_joint_cp_error: 1
 tol_translation: 0.02
 tol_rotation: 0.05
-solver_log: "/tmp/trajopt2.txt"
-plot: true
 ```
 
 - **acceleration_scaling** and **jerk_scaling**: Similar to velocity scaling, used to adjust limits for acceleration and jerk.
@@ -346,7 +328,7 @@ Most configuration parameters are suitable for general use, but the following ca
 
 ### Learning from a Demonstration <a id="learn"></a>
 
-To initiate the learning from demonstration process, use the following command:
+To initiate the LfD process, use the following command:
 
 ```bash
 roslaunch lfd_interface program_bundle.launch robot_group:=fr3
@@ -360,7 +342,7 @@ The launched system exposes the following topics and actions:
 
 - **`fr3/lfd_pipeline` Action Server**: Allows training on a specific demonstration and planning an LfD for a new goal configuration with a defined duration scale. It also provides options to visualize the resulting plan in RViz or directly execute it on the robot.
 
-- **`fr3/plan_joint` and `fr3/plan_pose` Action Servers**: These servers use MoveIt's internal motion planning to plan and execute trajectories to reach a specified joint configuration or end-effector pose. The `fr3/plan_pose` server also requires an initial joint configuration for inverse kinematics (IK), considering null space in the case of redundant manipulators.
+- **`fr3/plan_joint` and `fr3/plan_pose` Action Servers**: These servers use MoveIt's internal motion planning to plan and execute trajectories to reach a specified joint configuration or end-effector pose. The `fr3/plan_pose` server also requires an initial joint configuration for IK, considering null space in the case of redundant manipulators.
 
 - **`fr3/pose_state` Topic**: Publishes the pose of the end-effector, similar to how the `joint_states` topic publishes joint positions.
 

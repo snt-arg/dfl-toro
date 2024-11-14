@@ -2,26 +2,71 @@
  <h1>DFL-TORO: A One-Shot Demonstration Framework for Learning Time-Optimal Robotic Manufacturing Tasks</h1>
 </div>
 
-**DFL-TORO** is a ROS Package for .....
+**DFL-TORO** is a one-shot demonstration framework for learning time-optimal robotic manufacturing tasks. It optimizes Learning from Demonstration (LfD) by minimizing the need for multiple demonstrations, resulting in efficient, noise-free, and jerk-regulated trajectories. Designed for intuitive kinesthetic demonstrations, DFL-TORO enhances robotic programming efficiency and precision in tasks such as pick-and-place. Evaluations with robots like the Franka Emika Research 3 (FR3) and ABB YuMi demonstrate its effectiveness in transforming demonstrations into optimized, high-performance manufacturing solutions. (Video: https://youtu.be/YJc6DwTqz8o?si=LqTFP7WXPNOFhYCM)
 
 
-## Principal Packages
+<p align="center">
+  <a href="">
+    <img src="./docs/images/main.jpg" alt="Logo" width="60%">
+  </a>
+</p>
 
-The principal packages comprising DFL-TORO are briefly described in the following table:
 
-| Package | Description |
+## Table of Contents
+
+- [Modules and Packages](#modules)
+   - [Principal Modules](#principal-modules)
+   - [FR3 Modules](#fr3-modules)
+   - [ABB Yumi Modules](#abb-modules)
+- [Installation Guide](#installation)
+   - [Docker Installation](#docker)
+   - [Building from Source](#source)
+- [Usage Guide](#usage)
+   - [Record a Demonstration](#record)
+   - [Optimize a Demonstration](#optimize)
+   - [Learning from a Demonstration](#learn)
+   - [Crafting LfD Programs with High-Level Instructions](#program)
+- [Notes](#notes)
+   - [License](#license)
+   - [Contributions](#contributions)
+   - [Acknowledgements](#acknowledgments)
+   - [Maintainers](#maintainers)
+
+## Modules and Packages <a id="modules"></a>
+
+### Principal Modules <a id="principal-modules"></a>
+The principal modules comprising DFL-TORO are briefly described in the following table:
+
+| Module | Description |
 | --- | --- |
-| [lfd_interface](lfd_interface) | bla bla bla |
-| [lfd_smoothing](lfd_smoothing) | bla bla bla |
-| [lfd_dmp](lfd_dmp) | bla bla bla |
+| [lfd_interface](lfd_interface) | The LFD Interface module is the core element of DFL-TORO. This module is responsible for providing an interface to various modules of the software and allowing interaction of the user with different functionalities of the software. The main design objective in developing this module was to provide a standard interface to enhance the extensibility and modularity of the framework.  |
+| [lfd_smoothing](lfd_smoothing) | The main role of the this module is to take raw recorded demonstrations and convert them into optimal demonstration trajectories. |
+| [lfd_dmp](lfd_dmp) | This module is the implementation of DMPs, which is responsible for training demonstrations and planning trajectories based on the required start and goal configuration. |
 
 Besides the principal packages, several other packages are included to enable implementation on Franka Research 3 (FR3) and ABB Dual-Arm YuMi.
 
+### FR3 Modules <a id="fr3-modules"></a>
+
+| Module | Description |
+| --- | --- |
+| [franka_ws](franka_ws) | Launch files and required config to run different controllers on FR3.  |
+| [fr3_moveit_config](fr3_moveit_config) | Moveit configuration package for FR3. |
+| [franka_drake](franka_drake) | Description package to enable using FR3 model in PyDrake. |
 
 
-## Installation Guide
+### ABB YuMi Modules <a id="abb-modules"></a>
 
-### Docker Installation
+| Module | Description |
+| --- | --- |
+| [yumi_bringup](yumi_bringup) | Source files and scripts required to control ABB Yumi via the [ABB Robot Driver](https://github.com/ros-industrial/abb_robot_driver)   |
+| [yumi_moveit_config](yumi_moveit_config) | Moveit configuration package for ABB Yumi. |
+| [yumi_drake](yumi_drake) | Description package to enable using Yumi model in [PyDrake](https://drake.mit.edu/). |
+
+
+## Installation Guide <a id="installation"></a>
+
+
+### Docker Installation <a id="docker"></a>
 
 #### Prerequisites
 
@@ -72,7 +117,7 @@ Besides the principal packages, several other packages are included to enable im
    cd ~/main_ws/
    ```
 
-### Building from Source
+### Building from Source <a id="source"></a>
 
 #### Prerequisites
 
@@ -143,7 +188,7 @@ Besides the principal packages, several other packages are included to enable im
    ```
 
 
-## Usage Guide
+## Usage Guide <a id="usage"></a>
 
 This tutorial is designed for the Franka Research 3 (FR3) robotic arm, utilizing a learning approach based on Dynamic Movement Primitives (DMP). Before proceeding, please create the following folder structure within the `lfd_interface` package to organize the necessary data:
 
@@ -157,7 +202,9 @@ This tutorial is designed for the Franka Research 3 (FR3) robotic arm, utilizing
         └── traj
 ```
 
-### Record a Demonstration
+A video demonstration for a pick and place task is available here: https://youtu.be/wddDjkp_Z2U?si=evYXkvJCtPFPYrp-
+
+### Record a Demonstration <a id="record"></a>
 
 To record a demonstration, use the following command:
 
@@ -171,6 +218,11 @@ roslaunch lfd_interface lfd_recorder.launch config:=fr3 name:=DEMO_NAME
 - During the recording, the recorded path will be visualized in real-time using RViz.
 
 To stop the recording, press `Ctrl+C`. The demonstration will be saved under `lfd_interface/data/demonstrations/`.
+
+<div style="display: flex; gap: 10%;">
+  <img src="./docs/images/kinesthetic.png" alt="kinesthetic setup" style="width: 45%; object-fit: contain;"/>
+  <img src="./docs/images/kinesthetic_rviz.png" alt="kinesthetic Rviz" style="width: 40%; object-fit: contain;"/>
+</div>
 
 #### What is Recorded
 
@@ -193,7 +245,7 @@ ee_frame: "fr3_hand_tcp"
 - **ee_frame**: The name of the link in the robot's URDF file that serves as the end-effector frame, used for recording the end-effector pose throughout the demonstration.
 
 
-### Optimize a Demonstration
+### Optimize a Demonstration <a id="optimize"></a>
 
 The optimization process refines the original demonstration trajectory to produce a noise-free, smooth, and efficient trajectory.
 
@@ -292,7 +344,7 @@ Most configuration parameters are suitable for general use, but the following ca
 - **tol_translation** and **tol_rotation**: Adjust these values based on the required accuracy. Higher tolerances provide more freedom for smoother, faster optimization.
 
 
-### Learning from Demonstration (LfD)
+### Learning from a Demonstration <a id="learn"></a>
 
 To initiate the learning from demonstration process, use the following command:
 
@@ -315,7 +367,14 @@ The launched system exposes the following topics and actions:
 The topics and actions provided allow for flexibility in LfD, including planning, visualization, and real-time execution, facilitating effective robot programming through demonstrations.
 
 
-### Crafting LfD Programs with High-Level Instructions
+<p align="center">
+  <a href="">
+    <img src="./docs/images/lfd.png" alt="Logo" width="40%">
+  </a>
+</p>
+
+
+### Crafting LfD Programs with High-Level Instructions <a id="program"></a>
 
 To create complete programs from demonstrated subtasks, high-level instructions can be used to combine LfD-based subtasks into comprehensive robotic tasks.
 
@@ -353,3 +412,35 @@ if __name__ == "__main__":
 
 If debug mode is activated, the planned LfD trajectory is first visualized in RViz before being executed on the robot. This helps verify the planned motion to ensure it meets the desired outcome.
 
+## Notes <a id="notes"></a>
+
+Please be aware that the included packages are intended for academic use and have not undergone productization. They are provided "as-is," with only limited support available.
+
+### License <a id="license"></a>
+
+This project is licensed under the SnT Academic License- see the [LICENSE](LICENSE) for more details.
+
+### Contributions <a id="contributions"></a>
+
+Contributions are welcome! If you have any suggestions, bug reports, or feature requests,
+please create a new issue or pull request.
+
+### Acknowledgements <a id="acknowledgments"></a>
+
+This work was supported by the Luxembourg National Research Fund (FNR) through the Project ‘‘A Combined Machine Learning
+Approach for the Engineering of Flexible Assembly Processes Using Collaborative Robots (ML-COBOTS)’’ under Grant 15882013.
+
+If you use this framework in your scientific research, we would appreciate if you cite the corresponding paper:
+```
+@article{barekatain2024dfl,
+  title={Dfl-toro: A one-shot demonstration framework for learning time-optimal robotic manufacturing tasks},
+  author={Barekatain, Alireza and Habibi, Hamed and Voos, Holger},
+  journal={IEEE Access},
+  year={2024},
+  publisher={IEEE}
+}
+```
+
+### Maintainers <a id="maintainers"></a>
+
+- [Alireza Barekatain](https://www.github.com/abarekatain)

@@ -1,0 +1,29 @@
+version: '2'
+services:
+  ros:
+    image: abarekatain/ros1_moveit:2024
+    container_name: ros_noetic
+    network_mode: host
+    ipc: host
+    privileged: true
+    devices:
+      - /dev/dri:/dev/dri
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw   
+      - ../../_ws:$HOME/main_ws:rw
+    environment:
+      - NVIDIA_DRIVER_CAPABILITIES=all
+      - DISPLAY
+      - XDG_RUNTIME_DIR
+      - WAYLAND_DISPLAY
+      - XAUTHORITY=/tmp/.docker.xauth
+    user: abrk
+    cap_add:
+      - ALL
+    tty: true
+    stdin_open: true
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities: [ gpu ]

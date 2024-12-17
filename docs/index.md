@@ -35,3 +35,38 @@ Besides the principal packages, several other packages are included to enable im
 | [yumi_bringup](https://github.com/snt-arg/yumi_bringup)             | Source files and scripts required to control ABB Yumi via the [ABB Robot Driver](https://github.com/ros-industrial/abb_robot_driver) |
 | [yumi_moveit_config](https://github.com/snt-arg/yumi_moveit_config) | Moveit configuration package for ABB Yumi.                                                                                           |
 | [yumi_drake](https://github.com/snt-arg/yumi_drake)                 | Description package to enable using Yumi model in [PyDrake](https://drake.mit.edu/).                                                 |
+
+
+
+## Notes <a id="notes"></a>
+
+Please be aware that the included packages are intended for academic use and have not undergone productization. They are provided "as-is," with only limited support available.
+
+### License <a id="license"></a>
+
+This project is licensed under the SnT Academic License- see the [LICENSE](LICENSE) for more details.
+
+### Contributions <a id="contributions"></a>
+
+Contributions are welcome! If you have any suggestions, bug reports, or feature requests,
+please create a new issue or pull request.
+
+### Acknowledgements <a id="acknowledgments"></a>
+
+This work was supported by the Luxembourg National Research Fund (FNR) through the Project ‘‘A Combined Machine Learning
+Approach for the Engineering of Flexible Assembly Processes Using Collaborative Robots (ML-COBOTS)’’ under Grant 15882013.
+
+If you use this framework in your scientific research, we would appreciate if you cite the corresponding paper:
+```
+@article{barekatain2024dfl,
+  title={Dfl-toro: A one-shot demonstration framework for learning time-optimal robotic manufacturing tasks},
+  author={Barekatain, Alireza and Habibi, Hamed and Voos, Holger},
+  journal={IEEE Access},
+  year={2024},
+  publisher={IEEE}
+}
+```
+
+### Maintainers <a id="maintainers"></a>
+
+- [Alireza Barekatain](https://www.github.com/abarekatain)

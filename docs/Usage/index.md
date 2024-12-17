@@ -12,4 +12,4 @@ This tutorial is designed for the FR3 robotic arm, utilizing a learning approach
         └── traj
 ```
 
-A video demonstration for a pick and place task is available here: https://youtu.be/wddDjkp_Z2U?si=evYXkvJCtPFPYrp-
+[A video demonstration for a pick and place task is available here](https://youtu.be/wddDjkp_Z2U?si=evYXkvJCtPFPYrp-)

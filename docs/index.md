@@ -1,6 +1,6 @@
 # DFL-TORO
 
-**DFL-TORO** is a one-shot demonstration framework for learning time-optimal robotic manufacturing tasks. It optimizes Learning from Demonstration (LfD) by minimizing the need for multiple demonstrations, resulting in efficient, noise-free, and jerk-regulated trajectories. Designed for intuitive kinesthetic demonstrations, DFL-TORO enhances robotic programming efficiency and precision in tasks such as pick-and-place. Evaluations with robots like the Franka Emika Research 3 (FR3) and ABB YuMi demonstrate its effectiveness in transforming demonstrations into optimized, high-performance manufacturing solutions. (Video: https://youtu.be/YJc6DwTqz8o?si=LqTFP7WXPNOFhYCM)
+**DFL-TORO** is a one-shot demonstration framework for learning time-optimal robotic manufacturing tasks. It optimizes Learning from Demonstration (LfD) by minimizing the need for multiple demonstrations, resulting in efficient, noise-free, and jerk-regulated trajectories. Designed for intuitive kinesthetic demonstrations, DFL-TORO enhances robotic programming efficiency and precision in tasks such as pick-and-place. Evaluations with robots like the Franka Emika Research 3 (FR3) and ABB YuMi demonstrate its effectiveness in transforming demonstrations into optimized, high-performance manufacturing solutions. [Video](https://youtu.be/YJc6DwTqz8o?si=LqTFP7WXPNOFhYCM)
 
 ![logo](./images/main.jpg){align=center}
 

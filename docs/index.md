@@ -44,7 +44,7 @@ Please be aware that the included packages are intended for academic use and hav
 
 ### License <a id="license"></a>
 
-This project is licensed under the SnT Academic License- see the [LICENSE](LICENSE) for more details.
+This project is licensed under the SnT Academic License- see the [LICENSE](https://github.com/snt-arg/dfl-toro/blob/main/LICENSE) for more details.
 
 ### Contributions <a id="contributions"></a>
 
